@@ -1,22 +1,18 @@
 {
-  "name": "backend",
+  "name": "hello-world",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "node index.test | tap-spec"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "dotenv-safe": "^8.2.0",
-    "express": "^4.16.4",
-    "helmet": "^4.1.1",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
     "mongodb": "^3.6.2",
-    "morgan": "^1.9.1",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.0.1"
+    "mongoose": "^5.10.9",
+    "morgan": "~1.9.1"
   }
 }
