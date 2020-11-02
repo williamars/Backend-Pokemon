@@ -8,10 +8,16 @@ var app = require('../app');
 var debug = require('debug')('hello-world:server');
 var http = require('http');
 
+// O Heroku não irá utilizar o dotenv, 
+// então incluímos para usar só localmente
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+ }
+ const bodyParser = require('body-parser')
+
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -25,9 +31,11 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {console.log(`BACKEND is running on port${port}.` )});
 server.on('error', onError);
 server.on('listening', onListening);
+
+
 
 /**
  * Normalize a port into a number, string, or false.
