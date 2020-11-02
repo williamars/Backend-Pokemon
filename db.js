@@ -11,6 +11,5 @@ mongoose.connect('mongodb+srv://root:root123@cluster0.6l7by.mongodb.net/tecweb-d
 var userSchema = new mongoose.Schema({
     username: String,
     email: String
-}, { collection: 'tecweb-collection' }
-);
+}, { collection: 'tecweb-collection' });
 module.exports = { Mongoose: mongoose, UserSchema: userSchema }
