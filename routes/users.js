@@ -6,8 +6,8 @@ var router = express.Router();
 /* GET Userlist page. */
 router.get('/', function(req, res) {
   var db = require("../db");
-  var Users = db.Mongoose.model('usercollection', db.UserSchema,
-'usercollection');
+  var Users = db.Mongoose.model('tecweb-collection', db.UserSchema,
+'tecweb-collection');
   Users.find({}).lean().exec(
      function (e, docs) {
        res.json(docs);
@@ -18,8 +18,8 @@ router.get('/', function(req, res) {
 /* GET ONE users. */
 router.get('/:id', function (req, res, next) {
   var db = require('../db');
-  var User = db.Mongoose.model('usercollection', db.UserSchema,
-'usercollection');
+  var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
+'tecweb-collection');
   User.find({ _id: req.params.id }).lean().exec(function (e,
 docs) {
       res.json(docs);
@@ -30,8 +30,8 @@ docs) {
 /* POST ONE users. */
 router.post('/', function (req, res, next) {
   var db = require('../db');
-  var User = db.Mongoose.model('usercollection', db.UserSchema,
-'usercollection');
+  var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
+'tecweb-collection');
   var newuser = new User({ username: req.body.name, email:
 req.body.email });
   newuser.save(function (err) {
@@ -48,8 +48,8 @@ req.body.email });
 /* DELETE ONE user. */
 router.delete('/:id', function (req, res, next) {
   var db = require('../db');
-  var User = db.Mongoose.model('usercollection',
-db.UserSchema, 'usercollection');
+  var User = db.Mongoose.model('tecweb-collection',
+db.UserSchema, 'tecweb-collection');
   User.find({ _id: req.params.id }).remove(function (err) {
       if (err) {
           res.status(500).json({ error: err.message });
