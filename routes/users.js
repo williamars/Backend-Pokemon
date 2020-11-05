@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 var express = require('express');
+const { PokemonSchema } = require('../db');
 var router = express.Router();
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }));  
@@ -8,7 +9,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 /* GET Userlist page. */
 router.get('/', function(req, res) {
   var db = require("../db");
-
   var Users = db.Mongoose.model('tecweb-collection', db.UserSchema,
 'tecweb-collection');
   Users.find({}).lean().exec(
@@ -16,7 +16,6 @@ router.get('/', function(req, res) {
        res.json(docs);
        res.end();
   });
-  
 });
 
 /* GET ONE users. */
@@ -38,7 +37,16 @@ router.post('/', function (req, res, next) {
   'tecweb-collection');
   var newuser = new User({ username: req.body.username, password:
 req.body.password });
+
   User.exists({username: req.body.username}, function(err, docs){
+    if (req.body.username == ""){
+      res.status(500).send({ message: "Username empty" });
+      return;
+    }
+    if (req.body.password == ""){
+      res.status(500).send({ message: "Password empty" });
+      return;
+    }
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -68,6 +76,36 @@ req.body.password });
       });
     });  
   });
+});
+
+// Route for creating a new Review and updating Product "review" field with it
+router.post("/:id", function(req, res) {
+  var db = require('../db')
+  // var Pokemon = db.Mongoose.model('tecweb-collection', db.PokemonSchema,
+  // 'tecweb-collection');
+  // var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
+  // 'tecweb-collection');
+  var Pokemon = db.Mongoose.model('tecweb-collection', db.PokemonSchema,
+  'tecweb-collection');
+  var newPokemon = new Pokemon({ pokemon: req.body.pokemon, type:
+    req.body.type });
+  // var newPokemon = new Pokemon({pokemon: req.body.pokemon,type: req.body.type});
+  // Create a new note and pass the req.body to the entry
+  Pokemon.create(newPokemon)
+    .then(function(newPokemon) {
+      // If a Review was created successfully, find one Product with an `_id` equal to `req.params.id`. Update the Product to be associated with the new Review
+      // { new: true } tells the query that we want it to return the updated Product -- it returns the original by default
+      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+      return Pokemon.findOneAndUpdate({ _id: req.params.id }, {$push: {pokemons:newPokemon }}, { new: true });
+    })
+    .then(function(dbUser) {
+      // If we were able to successfully update a Product, send it back to the client
+      res.json(dbUser);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
 });
 
 /* DELETE ONE user. */
