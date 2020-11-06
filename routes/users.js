@@ -121,23 +121,17 @@ router.post('/login', function (req, res, next) {
   
 });
 
-// Route for creating a new Review and updating Product "review" field with it
+// Route for creating a new Pokemon and updating User "pokemons" field with it
 router.post("/:id", function(req, res) {
   var db = require('../db')
   
   var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
   'tecweb-collection');
-  // var Pokemon = db.Mongoose.model('tecweb-collection',db.PokemonSchema,'tecweb-collection');
-  // var newPokemon = new Pokemon({ pokemon: req.body.pokemon, type:
-  //   req.body.type });
-  // var newPokemon = new Pokemon({pokemon: req.body.pokemon,type: req.body.type});
   // Create a new note and pass the req.body to the entry
-  User.update(req.params.id,{pokemons})
+  User.create(req.body)
     .then(function(newPokemon) {
-      // If a Review was created successfully, find one Product with an `_id` equal to `req.params.id`. Update the Product to be associated with the new Review
-      // { new: true } tells the query that we want it to return the updated Product -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      return Pokemon.findOneAndUpdate({ _id: req.params.id }, {$push: {pokemons:newPokemon }}, { new: true });
+      return User.findOneAndUpdate({ _id: req.params.id }, {$push: {
+        pokemons:newPokemon }}, { new: true });
     })
     .then(function(dbUser) {
       // If we were able to successfully update a Product, send it back to the client
