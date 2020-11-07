@@ -5,11 +5,12 @@ mongoose.connect('mongodb+srv://root:root123@cluster0.6l7by.mongodb.net/tecweb-d
 var userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    pokemons:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Pokemon"
-    }
-    ],
+    // pokemons:[{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Pokemon"
+    // }
+    // ],
+    pokemons:[]
 }, { collection: 'tecweb-collection' });
 
 var pokemonSchema = new mongoose.Schema({

@@ -128,19 +128,23 @@ router.post("/:id", function(req, res) {
   var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
   'tecweb-collection');
   // Create a new note and pass the req.body to the entry
-  User.create(req.body)
-    .then(function(newPokemon) {
-      return User.findOneAndUpdate({ _id: req.params.id }, {$push: {
-        pokemons:newPokemon }}, { new: true });
-    })
-    .then(function(dbUser) {
-      // If we were able to successfully update a Product, send it back to the client
-      res.json(dbUser);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+  User.findByIdAndUpdate(req.params.id,{
+    $push:{
+      pokemons: {
+        pokemon:req.body.pokemon,
+        type: req.body.type
+      }
+    }
+  },{new: true, useFindAndModify:false},function(err, docs){
+    if (err){
+      res.status(500).json({ error: err.message });
+          res.end();
+          return;
+    }
+    res.json({success: true});
+      res.end();
+  }
+  )
 });
 
 /* DELETE ONE user. */
