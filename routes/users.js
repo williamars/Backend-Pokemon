@@ -122,7 +122,7 @@ router.post('/login', function (req, res, next) {
 });
 
 // Route for creating a new Pokemon and updating User "pokemons" field with it
-router.post("/:id", function(req, res) {
+router.post("pokemon/:id", function(req, res) {
   var db = require('../db')
   
   var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
@@ -138,6 +138,35 @@ router.post("/:id", function(req, res) {
         defense: req.body.defense,
         stamina: req.body.stamina
 
+      }
+    }
+  },{new: true, useFindAndModify:false},function(err, docs){
+    if (err){
+      res.status(500).json({ error: err.message });
+          res.end();
+          return;
+    }
+    res.json({success: true});
+      res.end();
+  }
+  )
+});
+
+router.post("/pokemon-battle/:id", function(req, res) {
+  var db = require('../db')
+  
+  var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
+  'tecweb-collection');
+  // Create a new note and pass the req.body to the entry
+  User.findByIdAndUpdate(req.params.id,{
+    $push:{
+      pokemon_battle: {
+        pokemon:req.body.pokemon,
+        type: req.body.type,
+        form: req.body.form,
+        attack: req.body.attack,
+        defense: req.body.defense,
+        stamina: req.body.stamina
       }
     }
   },{new: true, useFindAndModify:false},function(err, docs){

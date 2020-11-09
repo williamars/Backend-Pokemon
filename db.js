@@ -10,7 +10,8 @@ var userSchema = new mongoose.Schema({
     //     ref: "Pokemon"
     // }
     // ],
-    pokemons:[]
+    pokemons:[],
+    pokemon_battle: []
 }, { collection: 'tecweb-collection' });
 
 var pokemonSchema = new mongoose.Schema({
