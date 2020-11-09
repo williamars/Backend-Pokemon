@@ -132,7 +132,12 @@ router.post("/:id", function(req, res) {
     $push:{
       pokemons: {
         pokemon:req.body.pokemon,
-        type: req.body.type
+        type: req.body.type,
+        form: req.body.form,
+        attack: req.body.attack,
+        defense: req.body.defense,
+        stamina: req.body.stamina
+
       }
     }
   },{new: true, useFindAndModify:false},function(err, docs){
