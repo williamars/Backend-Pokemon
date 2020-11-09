@@ -106,7 +106,7 @@ router.post('/login', function (req, res, next) {
         if (docs) {
           User.find({ username: req.body.username }).lean().exec(function (e,
             docs) {
-                  res.json(docs);
+                  res.json(docs[0]['_id']);
                   res.end();
                   return;
               });
