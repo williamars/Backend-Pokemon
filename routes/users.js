@@ -104,8 +104,12 @@ router.post('/login', function (req, res, next) {
           return;
         }
         if (docs) {
-          res.status(200).send({ message: "Credenciais corretas" });
-          return;
+          User.find({ username: req.body.username }).lean().exec(function (e,
+            docs) {
+                  res.json(docs);
+                  res.end();
+                  return;
+              });
         };
         if (!docs){
           res.status(400).send({ message: "Usuário ou senha incorreto" });
@@ -152,6 +156,7 @@ router.post("/pokemon/:id", function(req, res) {
   )
 });
 
+// Route for creating a new Pokemon-Battle and updating User "pokemons-battle" field with it
 router.post("/pokemon-battle/:id", function(req, res) {
   var db = require('../db')
   
