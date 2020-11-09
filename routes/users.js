@@ -122,7 +122,7 @@ router.post('/login', function (req, res, next) {
 });
 
 // Route for creating a new Pokemon and updating User "pokemons" field with it
-router.post("pokemon/:id", function(req, res) {
+router.post("/pokemon/:id", function(req, res) {
   var db = require('../db')
   
   var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
