@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://root:root123@cluster0.6l7by.mongodb.net/tecweb-db?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://root:root123@cluster0.1pnx3.mongodb.net/pokemondb?retryWrites=true&w=majority',
 {useNewUrlParser:true});
 // mongoose.connect('mongodb://localhost:27017/datatest',{useNewUrlParser:true});
 var userSchema = new mongoose.Schema({
