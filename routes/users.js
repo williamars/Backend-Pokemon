@@ -156,6 +156,27 @@ router.post("/pokemon/:id", function(req, res) {
   )
 });
 
+router.put("/pokemon/:id", function(req,res) {
+  var db = require("../db")
+  var User = db.Mongoose.model('tecweb-collection', db.UserSchema,
+  'tecweb-collection');
+  User.findByIdAndUpdate(req.params.id,{
+    $pull:{
+      pokemons: { pokemon:req.body.pokemon
+}
+    }
+  }, {new: true, useFindAndModify:false, multi: true},function(err, docs){
+    if (err){
+      res.status(500).json({ error: err.message });
+          res.end();
+          return;
+    }
+    res.json({success: true, doc: docs, req: req.body.pokemon
+    });
+      res.end();
+  })
+})
+
 // Route for creating a new Pokemon-Battle and updating User "pokemons-battle" field with it
 router.post("/pokemon-battle/:id", function(req, res) {
   var db = require('../db')
